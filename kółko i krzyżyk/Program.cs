@@ -1,15 +1,39 @@
 ﻿internal class Program
 {
-    private bool[,] circles_crossess = new bool[2,9];
+    private bool[,] circles_crossess = new bool[2, 9];
+
+    private bool sprawdzenie_pola(ref uint bufor, ref bool[,] circles_crossess, int circle_or_cross)
+    {
+        if (bufor > 0 && bufor < 10)
+        {
+            if (circles_crossess[0, bufor - 1] == false && circles_crossess[1, bufor - 1] == false)
+            {
+                circles_crossess[circle_or_cross, bufor - 1] = true;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Na tym polu juz sie cos znajduje! Wybierz inne: ");
+                bufor = Convert.ToUInt32(Console.ReadLine());
+                return sprawdzenie_pola(ref bufor, ref circles_crossess, circle_or_cross);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Nie ma takiego pola! Podaj inne: ");
+            bufor = Convert.ToUInt32(Console.ReadLine());
+            return sprawdzenie_pola(ref bufor, ref circles_crossess, circle_or_cross);
+        }
+    }
 
     private bool sprawdzenie_wyniku(bool[,] circless_crossesss)
     {
-       Program program = new Program();
-        
+        Program program = new Program();
+
         if (program.wygrana(circles_crossess) == 1)
         {
             Console.Clear();
-            
+
             program.wypisywanie(circles_crossess);
             Console.WriteLine("Wygrana kolek!");
             return true;
@@ -36,21 +60,21 @@
 
     private int wygrana(bool[,] circles_crossess)
     {
-        for (int i=0; i<2; i++)
+        for (int i = 0; i < 2; i++)
         {
             for (int j = 0; j < 3; j++)
             {
-                if (circles_crossess[i,j]==true && circles_crossess[i, j+3] == true && circles_crossess[i, j+6] == true)
+                if (circles_crossess[i, j] == true && circles_crossess[i, j + 3] == true && circles_crossess[i, j + 6] == true)
                 {
-                    return i+1;
+                    return i + 1;
                 }
-                else if (circles_crossess[i, j*3] == true && circles_crossess[i, j*3 + 1] == true && circles_crossess[i, j*3 + 2] == true)
+                else if (circles_crossess[i, j * 3] == true && circles_crossess[i, j * 3 + 1] == true && circles_crossess[i, j * 3 + 2] == true)
                 {
-                    return i+1;
+                    return i + 1;
                 }
             }
 
-            if ((circles_crossess[i,0] && circles_crossess[i, 4] && circles_crossess[i, 8]) || (circles_crossess[i, 2] && circles_crossess[i, 4] && circles_crossess[i, 6]))
+            if ((circles_crossess[i, 0] && circles_crossess[i, 4] && circles_crossess[i, 8]) || (circles_crossess[i, 2] && circles_crossess[i, 4] && circles_crossess[i, 6]))
             {
                 return i + 1;
             }
@@ -61,18 +85,18 @@
     private bool remis(bool[,] circles_crossess)
     {
         int suma = 0;
-        for(int i=0; i<2;i++)
+        for (int i = 0; i < 2; i++)
         {
             for (int j = 0; j < 9; j++)
             {
-                if (circles_crossess[i,j] == true)
+                if (circles_crossess[i, j] == true)
                 {
                     suma++;
                 }
             }
         }
 
-        if(suma==9)
+        if (suma == 9)
         {
             return true;
         }
@@ -81,12 +105,12 @@
             return false;
         }
     }
-    
+
     private void wypisywanie(bool[,] circles_crossess)
     {
-        for(int i=0; i<3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            for(int j=0; j<3; j++)
+            for (int j = 0; j < 3; j++)
             {
                 if (circles_crossess[0, j + (3 * i)] == true)
                 {
@@ -97,15 +121,15 @@
                     Console.Write("X");
                 }
                 else { Console.Write(" "); }
-                
-                if(j!=2)
+
+                if (j != 2)
                 {
                     Console.Write("|");
                 }
-                
+
             }
             Console.WriteLine("");
-            if(i!=2)
+            if (i != 2)
             {
                 Console.WriteLine("-----");
             }
@@ -123,26 +147,14 @@
             Console.WriteLine("Na jakim polu postawic kolko: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            while(!(bufor>0 && bufor<10))
-            {
-                Console.WriteLine("Nie ma takiego pola! Podaj inne: ");
-                bufor = Convert.ToUInt32(Console.ReadLine());
-            }
-
-            program.circles_crossess[0, bufor-1] = true;
+            program.sprawdzenie_pola(ref bufor, ref program.circles_crossess, 0);
 
             if (program.sprawdzenie_wyniku(program.circles_crossess) == true) break;
 
             Console.WriteLine("Na jakim polu postawic krzyzyk: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            while (!(bufor > 0 && bufor < 10))
-            {
-                Console.WriteLine("Nie ma takiego pola! Podaj inne: ");
-                bufor = Convert.ToUInt32(Console.ReadLine());
-            }
-
-            program.circles_crossess[1, bufor-1] = true;
+            program.sprawdzenie_pola(ref bufor, ref program.circles_crossess, 1);
 
             if (program.sprawdzenie_wyniku(program.circles_crossess) == true) break;
 
