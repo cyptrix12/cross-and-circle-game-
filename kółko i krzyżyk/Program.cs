@@ -2,7 +2,7 @@
 {
     private bool[,] circles_crossess = new bool[2, 9];
 
-    private bool sprawdzenie_pola(ref uint bufor, ref bool[,] circles_crossess, int circle_or_cross)
+    private bool sprawdzenie_pola(ref uint bufor, int circle_or_cross)
     {
         if (bufor > 0 && bufor < 10)
         {
@@ -15,42 +15,42 @@
             {
                 Console.WriteLine("Na tym polu juz sie cos znajduje! Wybierz inne: ");
                 bufor = Convert.ToUInt32(Console.ReadLine());
-                return sprawdzenie_pola(ref bufor, ref circles_crossess, circle_or_cross);
+                return sprawdzenie_pola(ref bufor, circle_or_cross);
             }
         }
         else
         {
             Console.WriteLine("Nie ma takiego pola! Podaj inne: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
-            return sprawdzenie_pola(ref bufor, ref circles_crossess, circle_or_cross);
+            return sprawdzenie_pola(ref bufor, circle_or_cross);
         }
     }
 
-    private bool sprawdzenie_wyniku(bool[,] circless_crossesss)
+    private bool sprawdzenie_wyniku()
     {
         Program program = new Program();
 
-        if (program.wygrana(circles_crossess) == 1)
+        if (program.wygrana() == 1)
         {
             Console.Clear();
 
-            program.wypisywanie(circles_crossess);
+            program.wypisywanie();
             Console.WriteLine("Wygrana kolek!");
             return true;
         }
-        else if (program.wygrana(circles_crossess) == 2)
+        else if (program.wygrana() == 2)
         {
             Console.Clear();
 
-            program.wypisywanie(circles_crossess);
+            program.wypisywanie();
             Console.WriteLine("Wygrana krzyzykow!");
             return true;
         }
-        else if (program.remis(circles_crossess))
+        else if (program.remis())
         {
             Console.Clear();
 
-            program.wypisywanie(circles_crossess);
+            program.wypisywanie();
             Console.WriteLine("Remis!");
             return true;
         }
@@ -58,7 +58,7 @@
         return false;
     }
 
-    private int wygrana(bool[,] circles_crossess)
+    private int wygrana()
     {
         for (int i = 0; i < 2; i++)
         {
@@ -82,7 +82,7 @@
         return 0;
     }
 
-    private bool remis(bool[,] circles_crossess)
+    private bool remis()
     {
         int suma = 0;
         for (int i = 0; i < 2; i++)
@@ -106,7 +106,7 @@
         }
     }
 
-    private void wypisywanie(bool[,] circles_crossess)
+    private void wypisywanie()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -142,21 +142,21 @@
         uint bufor = 0;
         while (true)
         {
-            program.wypisywanie(program.circles_crossess);
+            program.wypisywanie();
 
             Console.WriteLine("Na jakim polu postawic kolko: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            program.sprawdzenie_pola(ref bufor, ref program.circles_crossess, 0);
+            program.sprawdzenie_pola(ref bufor, 0);
 
-            if (program.sprawdzenie_wyniku(program.circles_crossess) == true) break;
+            if (program.sprawdzenie_wyniku() == true) break;
 
             Console.WriteLine("Na jakim polu postawic krzyzyk: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            program.sprawdzenie_pola(ref bufor, ref program.circles_crossess, 1);
+            program.sprawdzenie_pola(ref bufor, 1);
 
-            if (program.sprawdzenie_wyniku(program.circles_crossess) == true) break;
+            if (program.sprawdzenie_wyniku() == true) break;
 
             Console.Clear();
 
