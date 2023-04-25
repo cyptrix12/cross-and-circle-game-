@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace Game
+﻿namespace Game
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            Game program = new Game();
+            Game game = new Game();
 
-            program.MainGame();
+            game.MainGame();
         }
     }
 }
