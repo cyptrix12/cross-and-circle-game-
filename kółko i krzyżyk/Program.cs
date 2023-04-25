@@ -1,4 +1,4 @@
-﻿internal class Program
+﻿public class Game
 {
     private bool[,] circles_crossess = new bool[2, 9];
 
@@ -28,29 +28,28 @@
 
     private bool ResultCheck()
     {
-        Program program = new Program();
 
-        if (program.Win() == 1)
+        if (Win() == 1)
         {
             Console.Clear();
 
-            program.Display();
+            Display();
             Console.WriteLine("Wygrana kolek!");
             return true;
         }
-        else if (program.Win() == 2)
+        else if (Win() == 2)
         {
             Console.Clear();
 
-            program.Display();
+            Display();
             Console.WriteLine("Wygrana krzyzykow!");
             return true;
         }
-        else if (program.Draw())
+        else if (Draw())
         {
             Console.Clear();
 
-            program.Display();
+            Display();
             Console.WriteLine("Remis!");
             return true;
         }
@@ -136,30 +135,41 @@
         }
     }
 
-    private static void Main(string[] args)
+    public void MainGame()
     {
-        Program program = new Program();
         uint bufor = 0;
         while (true)
         {
-            program.Display();
+            Display();
 
             Console.WriteLine("Na jakim polu postawic kolko: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            program.ChooseRightSquare(ref bufor, 0);
+            ChooseRightSquare(ref bufor, 0);
 
-            if (program.ResultCheck() == true) break;
+            if (ResultCheck() == true) break;
 
             Console.WriteLine("Na jakim polu postawic krzyzyk: ");
             bufor = Convert.ToUInt32(Console.ReadLine());
 
-            program.ChooseRightSquare(ref bufor, 1);
+            ChooseRightSquare(ref bufor, 1);
 
-            if (program.ResultCheck() == true) break;
+            if (ResultCheck() == true) break;
 
             Console.Clear();
 
         }
+    }
+
+    
+}
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Game program = new Game();
+
+        program.MainGame();
     }
 }
